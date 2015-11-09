@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<plugin name="wall">
+	<title>Wall</title>
+	<summary>This plugin allows visitors to leave their messages/announcements at the Front End</summary>
+	<author>Intelliants LLC</author>
+	<contributor>Intelliants LLC</contributor>
+	<version>3.3.2</version>
+	<date>2015-09-16</date>
+	<compatibility>3.3</compatibility>
+
+	<actions>
+		<action name="posts_view" url="wall-posts/" icon="list" order="1" pages="wall_posts">View</action>
+	</actions>
+
+	<adminpages>
+		<page name="wall_posts" url="wall-posts/" menus="menu" order="40">Wall Posts</page>
+	</adminpages>
+
+	<pages>
+		<page name="wall" url="wall/" service="1">Wall Posts</page>
+	</pages>
+
+	<configgroup name="wall">Wall</configgroup>
+
+	<config group="wall" name="wall" type="divider" description="Wall Configuration">Wall Configuration</config>
+	<config group="wall" name="wall_allow_guests" type="radio" description="Allow guests to post" values="1,0">0</config>
+	<config group="wall" name="wall_allow_wysiwyg" type="radio" description="Allow WYSIWYG" values="1,0" value="1" private="0">0</config>
+	<config group="wall" name="wall_auto_approval" type="radio" description="Posts auto-approval" values="1,0">1</config>
+	<config group="wall" name="post_max_chars" type="text" description="Symbols limit">400</config>
+	<config group="wall" name="posts_per_load" type="text" description="Number of posts per load" private="0">5</config>
+
+	<config group="email_templates" type="divider" name="wall_divider" description="Wall"><![CDATA[]]></config>
+	<config group="email_templates" type="radio" values="1,0" name="wall_admin_notification" description="New wall post alerts">1</config>
+	<config group="email_templates" type="text" name="wall_admin_notification_subject" description="Email Subject">New wall post added</config>
+	<config group="email_templates" type="textarea" name="wall_admin_notification_body" description="Email Body">
+		<![CDATA[
+<p>Hi,</p>
+<p>New wall post has been published on your website "{%TITLE%}":</p>
+<p>{%TEXT%}</p>
+<p>For more details check the url: <a href="{%URL%}">{%URL%}</a></p>
+		]]>
+	</config>
+
+	<phrases>
+		<phrase category="admin" key="add_post">Add Post</phrase>
+
+		<phrase category="common" key="wall">Wall</phrase>
+		<phrase category="common" key="wall_posts">Wall Posts</phrase>
+		<phrase category="common" key="are_you_sure_to_delete_this_post">Are you sure you want to delete this post?</phrase>
+		<phrase category="common" key="are_you_sure_to_delete_selected_posts">Are you sure you want to delete selected comments?</phrase>
+		<phrase category="common" key="edit_post">Edit Post</phrase>
+		<phrase category="common" key="post_added">Post added.</phrase>
+
+		<phrase category="frontend" key="post_waits_for_approval">Your post will be displayed once approved by Administrator.</phrase>
+		<phrase category="frontend" key="guests_warning">Please login or register to post.</phrase>
+		<phrase category="frontend" key="error_max_chars">Your post's length should have less than :length symbols.</phrase>
+		<phrase category="frontend" key="error_empty_post">Your post is empty</phrase>
+		<phrase category="frontend" key="sumbit_post">Submit</phrase>
+		<phrase category="frontend" key="no_posts">No posts submitted yet.</phrase>
+	</phrases>
+
+	<blocks>
+		<block name="wall" title="Wall" position="bottom" type="smarty" sticky="0" pages="index" filename="plugin:wall:block.wall.tpl" classname="box-clear"><![CDATA[]]></block>
+	</blocks>
+
+	<hooks>
+		<hook name="phpCoreBeforePageDisplay" type="php" page_type="front" filename="plugins/wall/includes/hook.blocks-load.php"><![CDATA[]]></hook>
+		<hook name="smartyItemViewBeforeTabs" type="smarty" filename="plugins/wall/templates/front/tab.member.tpl"><![CDATA[]]></hook>
+		<hook name="adminDashboardStatistics" page_type="admin"><![CDATA[$items['wall:wallposts'] = 'plugin';]]></hook>
+	</hooks>
+
+	<install>
+		<sql>
+			<![CDATA[
+CREATE TABLE `{prefix}wall_posts` (
+	`id` int(8) NOT NULL auto_increment,
+	`member_id` int(8) NOT NULL,
+	`body` text NOT NULL,
+	`ip` bigint(12) unsigned NOT NULL,
+	`date` datetime NOT NULL,
+	`status` enum('inactive', 'active') NOT NULL default 'inactive',
+	PRIMARY KEY  (`id`)
+) {mysql_version};
+			]]>
+		</sql>
+	</install>
+
+	<uninstall>
+		<sql>
+			<![CDATA[
+DROP TABLE IF EXISTS `{prefix}wall_posts`;
+			]]>
+		</sql>
+	</uninstall>
+</plugin>
