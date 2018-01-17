@@ -4,9 +4,13 @@
 	<summary>This plugin allows visitors to leave their messages/announcements at the Front End</summary>
 	<author>Intelliants LLC</author>
 	<contributor>Intelliants LLC</contributor>
-	<version>3.3.2</version>
-	<date>2015-09-16</date>
-	<compatibility>3.3</compatibility>
+	<version>4.0.0</version>
+	<date>2018-01-17</date>
+	<compatibility>4.1</compatibility>
+
+	<items>
+		<item payable="0" table_name="wall_posts">wall_posts</item>
+	</items>
 
 	<actions>
 		<action name="posts_view" url="wall-posts/" icon="list" order="1" pages="wall_posts">View</action>
@@ -60,12 +64,12 @@
 	</phrases>
 
 	<blocks>
-		<block name="wall" title="Wall" position="bottom" type="smarty" sticky="0" pages="index" filename="plugin:wall:block.wall.tpl" classname="box-clear"><![CDATA[]]></block>
+		<block name="wall" title="Wall" position="bottom" type="smarty" sticky="0" pages="index" filename="block.wall" classname="box-clear"><![CDATA[]]></block>
 	</blocks>
 
 	<hooks>
-		<hook name="phpCoreBeforePageDisplay" type="php" page_type="front" filename="plugins/wall/includes/hook.blocks-load.php"><![CDATA[]]></hook>
-		<hook name="smartyItemViewBeforeTabs" type="smarty" filename="plugins/wall/templates/front/tab.member.tpl"><![CDATA[]]></hook>
+		<hook name="phpCoreBeforePageDisplay" type="php" page_type="front" filename="hook.blocks-load"><![CDATA[]]></hook>
+		<hook name="smartyItemViewBeforeTabs" type="smarty" filename="tab.member"><![CDATA[]]></hook>
 		<hook name="adminDashboardStatistics" page_type="admin"><![CDATA[$items['wall:wallposts'] = 'plugin';]]></hook>
 	</hooks>
 
