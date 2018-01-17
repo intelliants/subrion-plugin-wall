@@ -21,23 +21,21 @@ $(function()
 			if (typeof response.html != 'undefined' && !response.error)
 			{
 				$('.js-wall-post-list .alert').remove();
-				$('<div style="display:none;margin-bottom:30px;">' + response.html + '</div>').prependTo('.js-wall-post-list').fadeIn(800);
-			}
+                $('<div style="display:none;margin-bottom:30px;">' + response.html + '</div>').prependTo('.js-wall-post-list').fadeIn(800);
+                if (1 == intelli.config.wall_allow_wysiwyg) {
+                    CKEDITOR.instances['body'].setData('');
+                }
+            }
 		});
 	});
 	
 	$('.js-wall-post-list').on('click', '.js-wall-post-delete', function(e) {
 		e.preventDefault();
 		var that = this;
-		var params = {
-			url: vUrl,
-			type: 'post',
-			data: {action: 'delete', id: $(this).data('post-id')}
-		};
 
 		if (confirm(_t('are_you_sure_to_delete_this_post')))
 		{
-			$.ajax(params).done(function(response) {
+            intelli.post(vUrl, {action: 'delete', id: $(this).data('post-id')}).success(function(response) {
 				intelli.notifFloatBox({msg: response.messages, autohide: true, type: response.error ? 'error' : 'success'});
 				if (!response.error)
 				{
@@ -62,12 +60,7 @@ $(function()
 			var new_body = body_section.children('.js-wall-post-body-edit').val();
 			var post_id = $(this).data('post-id');
 
-			var params = {
-				url: vUrl,
-				type: 'post',
-				data: {action: 'edit', id: post_id, body: new_body}
-			};
-			$.ajax(params).done(function(response) {
+			intelli.post(vUrl, {action: 'edit', id: post_id, body: new_body}).success(function(response) {
 				intelli.notifFloatBox({msg: response.messages, autohide: true, type: response.error ? 'error' : 'success'});
 				if (!response.error)
 				{

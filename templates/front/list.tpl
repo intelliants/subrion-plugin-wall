@@ -1,8 +1,7 @@
 <div class="media ia-item ia-item-bordered wall-post js-wall-post">
 	<div class="media-body">
 		<div class="description">
-			<div class="js-wall-post-body-text">{$post.body|escape:'html'}</div>
-
+			<div class="js-wall-post-body-text">{$post.body}</div>
 			{if !empty($member) && 0 != $post.member_id && $post.member_id == $member.id}
 				<p class="wall-post-actions">
 					<a href="#" class="js-wall-post-edit" data-post-id="{$post.id}"><i class="icon-edit"></i> {lang key='edit'}</a>&nbsp;
