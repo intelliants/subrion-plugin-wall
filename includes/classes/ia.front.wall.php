@@ -2,7 +2,7 @@
 /******************************************************************************
  *
  * Subrion - open source content management system
- * Copyright (C) 2017 Intelliants, LLC <https://intelliants.com>
+ * Copyright (C) 2018 Intelliants, LLC <https://intelliants.com>
  *
  * This file is part of Subrion.
  *
@@ -24,7 +24,7 @@
  *
  ******************************************************************************/
 
-class iaWallpost extends abstractModuleFront
+class iaWall extends abstractModuleFront
 {
     protected static $_table = 'wall_posts';
 
@@ -32,6 +32,7 @@ class iaWallpost extends abstractModuleFront
     {
         if (!$this->iaCore->get('wall_allow_wysiwyg')) {
             $data['body'] = htmlspecialchars($data['body']);
+            $data['ip'] = $this->iaCore->factory('util')->getIp();
         }
 
         $id = $this->iaDb->insert($data, array('date' => iaDb::FUNCTION_NOW), self::getTable());

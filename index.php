@@ -2,7 +2,7 @@
 /******************************************************************************
  *
  * Subrion - open source content management system
- * Copyright (C) 2017 Intelliants, LLC <https://intelliants.com>
+ * Copyright (C) 2018 Intelliants, LLC <https://intelliants.com>
  *
  * This file is part of Subrion.
  *
@@ -24,7 +24,8 @@
  *
  ******************************************************************************/
 
-$iaWallpost = $iaCore->factoryPlugin('wall', iaCore::FRONT, 'wallpost');
+$iaWallpost = $iaCore->factoryModule('wall', IA_CURRENT_MODULE);
+
 
 if (iaView::REQUEST_JSON == $iaView->getRequestType()) {
     $error = false;

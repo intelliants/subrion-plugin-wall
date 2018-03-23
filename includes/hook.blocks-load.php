@@ -2,7 +2,7 @@
 /******************************************************************************
  *
  * Subrion - open source content management system
- * Copyright (C) 2017 Intelliants, LLC <https://intelliants.com>
+ * Copyright (C) 2018 Intelliants, LLC <https://intelliants.com>
  *
  * This file is part of Subrion.
  *
@@ -25,13 +25,15 @@
  ******************************************************************************/
 
 if (iaView::REQUEST_HTML == $iaView->getRequestType()) {
-    $iaWallpost = $iaCore->factoryPlugin('wall', iaCore::FRONT, 'wallpost');
+    $iaWallpost = $iaCore->factoryModule('wall', 'wall');
 
     if ($iaView->blockExists('wall')) {
+
         $array = $iaWallpost->getLatest($iaCore->get('posts_per_load'));
         $iaView->assign('latest_wall_posts', $array);
 
         $iaView->assign('num_total_wall_posts', $iaDb->foundRows());
+
     }
 
     if ('view_member' == $iaView->name()) {
@@ -40,5 +42,7 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType()) {
         $iaView->assign('latest_wall_posts', $array);
 
         $iaView->assign('num_total_wall_posts', $iaDb->foundRows());
+
     }
+    $iaView->add_css('_IA_URL_modules/wall/templates/front/css/style');
 }
