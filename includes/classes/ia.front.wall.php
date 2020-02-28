@@ -42,16 +42,12 @@ class iaWall extends abstractModuleFront
 
     public function update(array $data, $id = null)
     {
-        $id = $this->iaDb->update($data, null, null, self::getTable());
-
-        return $id;
+        return $this->iaDb->update($data, null, null, self::getTable());
     }
 
     public function delete($id)
     {
-        $this->iaDb->delete('`id` = ' . $id, self::getTable());
-
-        return $this->iaDb->delete(array('id' => $id), self::getTable());
+        return $this->iaDb->delete(iaDb::convertIds($id), self::getTable());
     }
 
     public function get($columns = null, $stmt = null, $start = 0, $limit = 0, $order = 't1.`date` DESC')
